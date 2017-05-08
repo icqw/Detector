@@ -22,12 +22,12 @@ def check_configs():
     @raise DetectorStartupError: if config files do not exist.
     """
     configs = [
-        os.path.join(DETECTOR_ROOT, "conf", "auxiliary.conf"),
-        os.path.join(DETECTOR_ROOT, "conf", "detector.conf"),
-        os.path.join(DETECTOR_ROOT, "conf", "memory.conf"),
-        os.path.join(DETECTOR_ROOT, "conf", "processing.conf"),
-        os.path.join(DETECTOR_ROOT, "conf", "reporting.conf"),
-        os.path.join(DETECTOR_ROOT, "conf", "virtualbox.conf"),
+        #os.path.join(DETECTOR_ROOT, "conf", "auxiliary.conf"),
+        #os.path.join(DETECTOR_ROOT, "conf", "detector.conf"),
+        #os.path.join(DETECTOR_ROOT, "conf", "memory.conf"),
+        #os.path.join(DETECTOR_ROOT, "conf", "processing.conf"),
+        #os.path.join(DETECTOR_ROOT, "conf", "reporting.conf"),
+        #os.path.join(DETECTOR_ROOT, "conf", "virtualbox.conf"),
     ]
 
     for config in configs:
