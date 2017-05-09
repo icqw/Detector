@@ -12,10 +12,10 @@ from lib.detector.common.exceptions import DetectorOperationalError
 from lib.detector.common.exceptions import DetectorCriticalError
 #from lib.detector.common.objects import File
 #from lib.detector.common.utils import create_folder
-#from lib.detector.core.database import Database, TASK_COMPLETED, TASK_REPORTED
+from lib.detector.core.database import Database, TASK_COMPLETED, TASK_REPORTED
 #from lib.detector.core.guest import GuestManager
-#from lib.detector.core.plugins import list_plugins, RunAuxiliary, RunProcessing
-#from lib.detector.core.plugins import RunSignatures, RunReporting
+from lib.detector.core.plugins import list_plugins, RunAuxiliary, RunProcessing
+from lib.detector.core.plugins import RunSignatures, RunReporting
 from lib.detector.core.resultserver import ResultServer
 
 

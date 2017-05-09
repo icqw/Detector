@@ -44,12 +44,8 @@ def detector_main(max_analysis_count=0):
 
     os.chdir(cur_path)
 
-def detector_main():
-
-    return
-
 if __name__=="__main__":
    # try:
-        detector_init()
-
+    detector_init()
+    detector_main(max_analysis_count=5)
 

@@ -9,7 +9,7 @@ from lib.detector.common.exceptions import DetectorDatabaseError
 from lib.detector.common.exceptions import DetectorOperationalError
 from lib.detector.common.exceptions import DetectorDependencyError
 from lib.detector.common.objects import File, URL
-from lib.detector.common.utils import create_folder, Singleton#, classlock, SuperLock
+from lib.detector.common.utils import create_folder, Singleton, classlock, SuperLock
 
 try:
     from sqlalchemy import create_engine, Column, not_
