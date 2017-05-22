@@ -1,0 +1,572 @@
+2017-05-22 10:09:35,246 [root] DEBUG: Importing modules...
+2017-05-22 10:09:36,746 [root] DEBUG: Imported "signatures" modules:
+2017-05-22 10:09:36,750 [root] DEBUG: 	 |-- CreatesExe
+2017-05-22 10:09:36,752 [root] DEBUG: 	 `-- SystemMetrics
+2017-05-22 10:09:36,755 [root] DEBUG: Imported "processing" modules:
+2017-05-22 10:09:36,757 [root] DEBUG: 	 |-- AnalysisInfo
+2017-05-22 10:09:36,760 [root] DEBUG: 	 |-- ApkInfo
+2017-05-22 10:09:36,763 [root] DEBUG: 	 |-- Baseline
+2017-05-22 10:09:36,766 [root] DEBUG: 	 |-- BehaviorAnalysis
+2017-05-22 10:09:36,769 [root] DEBUG: 	 |-- DroppedBuffer
+2017-05-22 10:09:36,772 [root] DEBUG: 	 |-- Debug
+2017-05-22 10:09:36,775 [root] DEBUG: 	 |-- Droidmon
+2017-05-22 10:09:36,778 [root] DEBUG: 	 |-- Dropped
+2017-05-22 10:09:36,780 [root] DEBUG: 	 |-- TLSMasterSecrets
+2017-05-22 10:09:36,783 [root] DEBUG: 	 |-- GooglePlay
+2017-05-22 10:09:36,786 [root] DEBUG: 	 |-- Memory
+2017-05-22 10:09:36,789 [root] DEBUG: 	 |-- NetworkAnalysis
+2017-05-22 10:09:36,792 [root] DEBUG: 	 |-- ProcessMemory
+2017-05-22 10:09:36,796 [root] DEBUG: 	 |-- Screenshots
+2017-05-22 10:09:36,799 [root] DEBUG: 	 |-- Snort
+2017-05-22 10:09:36,802 [root] DEBUG: 	 |-- Static
+2017-05-22 10:09:36,805 [root] DEBUG: 	 |-- Strings
+2017-05-22 10:09:36,808 [root] DEBUG: 	 |-- Suricata
+2017-05-22 10:09:36,811 [root] DEBUG: 	 |-- TargetInfo
+2017-05-22 10:09:36,813 [root] DEBUG: 	 `-- VirusTotal
+2017-05-22 10:09:36,816 [root] DEBUG: Imported "auxiliary" modules:
+2017-05-22 10:09:36,821 [root] DEBUG: 	 |-- MITM
+2017-05-22 10:09:36,823 [root] DEBUG: 	 |-- Services
+2017-05-22 10:09:36,828 [root] DEBUG: 	 `-- Sniffer
+2017-05-22 10:09:36,832 [root] DEBUG: Imported "reporting" modules:
+2017-05-22 10:09:36,835 [root] DEBUG: 	 |-- JsonDump
+2017-05-22 10:09:36,838 [root] DEBUG: 	 `-- ReportHTML
+2017-05-22 10:09:36,841 [root] DEBUG: Imported "machinery" modules:
+2017-05-22 10:09:36,845 [root] DEBUG: 	 `-- VirtualBox
+2017-05-22 10:09:36,848 [root] DEBUG: Checking for locked tasks..
+2017-05-22 10:09:36,858 [root] DEBUG: Checking for pending service tasks..
+2017-05-22 10:09:36,865 [root] DEBUG: Initializing Yara...
+2017-05-22 10:09:36,875 [root] DEBUG: 	 |-- index_binaries.yar
+2017-05-22 10:09:36,878 [root] DEBUG: 	 `-- index_memory.yar
+2017-05-22 10:09:36,884 [lib.detector.core.resultserver] DEBUG: ResultServer running on 192.168.56.1:2042.
+2017-05-22 10:09:36,888 [lib.detector.core.scheduler] INFO: Using "virtualbox" as machine manager
+2017-05-22 10:09:38,045 [modules.machinery.virtualbox] DEBUG: Getting status for winxpsp3_cn
+2017-05-22 10:09:38,115 [modules.machinery.virtualbox] DEBUG: Machine winxpsp3_cn status poweroff
+2017-05-22 10:09:38,273 [lib.detector.core.scheduler] INFO: Loaded 1 machine/s
+2017-05-22 10:09:38,296 [lib.detector.core.scheduler] INFO: Waiting for analysis tasks.
+2017-05-22 10:09:39,515 [lib.detector.core.scheduler] DEBUG: Processing task #1
+2017-05-22 10:09:39,530 [lib.detector.core.scheduler] INFO: Starting analysis of FILE "Demo.exe" (task #1, options "")
+2017-05-22 10:09:39,881 [lib.detector.core.scheduler] INFO: Task #1: acquired machine detect1 (label=winxpsp3_cn)
+2017-05-22 10:09:39,905 [modules.auxiliary.sniffer] ERROR: Tcpdump does not exist at path "/usr/sbin/tcpdump", network capture aborted
+2017-05-22 10:09:39,911 [lib.detector.core.plugins] DEBUG: Started auxiliary module: Sniffer
+2017-05-22 10:09:40,625 [modules.machinery.virtualbox] DEBUG: Starting vm winxpsp3_cn
+2017-05-22 10:09:40,637 [modules.machinery.virtualbox] DEBUG: Getting status for winxpsp3_cn
+2017-05-22 10:09:40,681 [modules.machinery.virtualbox] DEBUG: Machine winxpsp3_cn status poweroff
+2017-05-22 10:09:40,857 [modules.machinery.virtualbox] DEBUG: Using snapshot agent for virtual machine winxpsp3_cn
+2017-05-22 10:09:41,336 [modules.machinery.virtualbox] DEBUG: Getting status for winxpsp3_cn
+2017-05-22 10:09:41,426 [modules.machinery.virtualbox] DEBUG: Machine winxpsp3_cn status saved
+2017-05-22 10:09:48,677 [modules.machinery.virtualbox] DEBUG: Getting status for winxpsp3_cn
+2017-05-22 10:09:48,717 [modules.machinery.virtualbox] DEBUG: Machine winxpsp3_cn status running
+2017-05-22 10:09:49,073 [lib.detector.core.guest] INFO: Starting analysis on guest (id=detect1, ip=192.168.56.101)
+2017-05-22 10:09:50,081 [lib.detector.core.guest] DEBUG: detect1: not ready yet
+2017-05-22 10:09:51,095 [lib.detector.core.guest] DEBUG: detect1: not ready yet
+2017-05-22 10:09:52,101 [lib.detector.core.guest] DEBUG: detect1: not ready yet
+2017-05-22 10:09:53,108 [lib.detector.core.guest] DEBUG: detect1: not ready yet
+2017-05-22 10:09:54,165 [lib.detector.core.guest] DEBUG: detect1: not ready yet
+2017-05-22 10:09:55,178 [lib.detector.core.guest] DEBUG: detect1: not ready yet
+2017-05-22 10:09:55,253 [lib.detector.core.guest] DEBUG: detect1: waiting for status 0x0001
+2017-05-22 10:09:55,267 [lib.detector.core.guest] DEBUG: detect1: status ready
+2017-05-22 10:09:56,957 [lib.detector.core.guest] DEBUG: Uploading analyzer to guest (id=detect1, ip=192.168.56.101)
+2017-05-22 10:09:57,857 [lib.detector.core.guest] DEBUG: detect1: analyzer started with PID 316
+2017-05-22 10:09:58,046 [lib.detector.core.guest] DEBUG: detect1: waiting for completion
+2017-05-22 10:09:58,451 [lib.detector.core.resultserver] DEBUG: LogHandler for live analysis.log initialized.
+2017-05-22 10:09:59,059 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 10:10:00,061 [lib.detector.core.resultserver] DEBUG: New process (pid=632, ppid=896, name=Demo.exe)
+2017-05-22 10:10:00,068 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 10:10:01,078 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 10:10:02,088 [lib.detector.core.resultserver] DEBUG: Connection closed: 192.168.56.101:1063
+2017-05-22 10:10:02,088 [lib.detector.core.resultserver] DEBUG: Connection closed: 192.168.56.101:1061
+2017-05-22 10:10:02,088 [lib.detector.core.resultserver] DEBUG: Connection closed: 192.168.56.101:1062
+2017-05-22 10:10:02,095 [lib.detector.core.guest] INFO: detect1: analysis completed successfully
+2017-05-22 10:10:02,484 [lib.detector.core.plugins] DEBUG: Stopped auxiliary module: Sniffer
+2017-05-22 10:10:02,489 [modules.machinery.virtualbox] DEBUG: Stopping vm winxpsp3_cn
+2017-05-22 10:10:02,492 [modules.machinery.virtualbox] DEBUG: Getting status for winxpsp3_cn
+2017-05-22 10:10:02,525 [modules.machinery.virtualbox] DEBUG: Machine winxpsp3_cn status running
+2017-05-22 10:10:04,861 [modules.machinery.virtualbox] DEBUG: Getting status for winxpsp3_cn
+2017-05-22 10:10:04,979 [modules.machinery.virtualbox] DEBUG: Machine winxpsp3_cn status poweroff
+2017-05-22 10:10:05,599 [lib.detector.core.scheduler] DEBUG: Released database task #1
+2017-05-22 10:10:05,664 [lib.detector.core.plugins] DEBUG: Executed processing module "AnalysisInfo" on analysis at "F:\Github\Detector\storage\analyses\1"
+2017-05-22 10:10:05,687 [lib.detector.core.plugins] DEBUG: Executed processing module "BehaviorAnalysis" on analysis at "F:\Github\Detector\storage\analyses\1"
+2017-05-22 10:10:05,700 [lib.detector.core.plugins] DEBUG: Executed processing module "DroppedBuffer" on analysis at "F:\Github\Detector\storage\analyses\1"
+2017-05-22 10:10:05,723 [lib.detector.core.plugins] DEBUG: Executed processing module "Debug" on analysis at "F:\Github\Detector\storage\analyses\1"
+2017-05-22 10:10:05,742 [lib.detector.core.plugins] DEBUG: Executed processing module "Dropped" on analysis at "F:\Github\Detector\storage\analyses\1"
+2017-05-22 10:10:05,759 [modules.processing.memory] ERROR: Cannot run volatility module: volatility library not available
+2017-05-22 10:10:05,769 [lib.detector.core.plugins] DEBUG: Executed processing module "Memory" on analysis at "F:\Github\Detector\storage\analyses\1"
+2017-05-22 10:10:05,780 [lib.detector.core.plugins] DEBUG: Executed processing module "ProcessMemory" on analysis at "F:\Github\Detector\storage\analyses\1"
+2017-05-22 10:10:06,839 [lib.detector.core.plugins] DEBUG: Executed processing module "Static" on analysis at "F:\Github\Detector\storage\analyses\1"
+2017-05-22 10:10:06,851 [lib.detector.core.plugins] DEBUG: Executed processing module "Strings" on analysis at "F:\Github\Detector\storage\analyses\1"
+2017-05-22 10:10:06,875 [lib.detector.common.objects] WARNING: Unable to import yara (please compile from sources)
+2017-05-22 10:10:06,890 [lib.detector.core.plugins] ERROR: Failed to run the processing module "TargetInfo" for task #1:
+Traceback (most recent call last):
+  File "F:\Github\Detector\lib\detector\core\plugins.py", line 215, in process
+    data = current.run()
+  File "F:\Github\Detector\modules\processing\targetinfo.py", line 26, in run
+    target_info["file"] = File(self.file_path).get_all()
+  File "F:\Github\Detector\lib\detector\common\objects.py", line 504, in get_all
+    infos["urls"] = self.get_urls()
+  File "F:\Github\Detector\lib\detector\common\objects.py", line 480, in get_urls
+    m = mmap.mmap(f.fileno(), 0)
+WindowsError: [Error 5] 
+2017-05-22 10:10:06,904 [modules.processing.baseline] INFO: Could not find a baseline report for machine 'detect1', skipping it.
+2017-05-22 10:10:06,917 [lib.detector.core.plugins] DEBUG: Executed processing module "Baseline" on analysis at "F:\Github\Detector\storage\analyses\1"
+2017-05-22 10:10:06,930 [modules.processing.network] WARNING: The PCAP file does not exist at path "F:\Github\Detector\storage\analyses\1\dump.pcap".
+2017-05-22 10:10:06,946 [lib.detector.core.plugins] DEBUG: Executed processing module "NetworkAnalysis" on analysis at "F:\Github\Detector\storage\analyses\1"
+2017-05-22 10:10:09,423 [lib.detector.core.plugins] DEBUG: Executed processing module "VirusTotal" on analysis at "F:\Github\Detector\storage\analyses\1"
+2017-05-22 10:10:09,460 [lib.detector.core.plugins] DEBUG: Executed processing module "TLSMasterSecrets" on analysis at "F:\Github\Detector\storage\analyses\1"
+2017-05-22 10:10:09,486 [lib.detector.core.plugins] DEBUG: Running 0 signatures
+2017-05-22 10:10:09,552 [lib.detector.core.plugins] DEBUG: Executed reporting module "JsonDump"
+2017-05-22 10:10:09,993 [lib.detector.core.plugins] DEBUG: Executed reporting module "ReportHTML"
+2017-05-22 10:10:10,009 [lib.detector.core.scheduler] INFO: Task #1: reports generation completed (path=F:\Github\Detector\storage\analyses\1)
+2017-05-22 10:10:10,174 [lib.detector.core.scheduler] INFO: Task #1: analysis procedure completed
+2017-05-22 10:38:14,361 [lib.detector.core.scheduler] DEBUG: Processing task #2
+2017-05-22 10:38:14,365 [lib.detector.core.scheduler] INFO: Starting analysis of FILE "Demo.exe" (task #2, options "")
+2017-05-22 10:38:14,447 [lib.detector.core.scheduler] INFO: File already exists at "F:\Github\Detector\storage\binaries\2cdf1a284fbf4d57bafc833acc5988ad962097d067bd4f06cbb68a20ff92ab05"
+2017-05-22 10:38:14,891 [lib.detector.core.scheduler] INFO: Task #2: acquired machine detect1 (label=winxpsp3_cn)
+2017-05-22 10:38:14,926 [modules.auxiliary.sniffer] ERROR: Tcpdump does not exist at path "/usr/sbin/tcpdump", network capture aborted
+2017-05-22 10:38:14,947 [lib.detector.core.plugins] DEBUG: Started auxiliary module: Sniffer
+2017-05-22 10:38:15,711 [modules.machinery.virtualbox] DEBUG: Starting vm winxpsp3_cn
+2017-05-22 10:38:15,739 [modules.machinery.virtualbox] DEBUG: Getting status for winxpsp3_cn
+2017-05-22 10:38:16,154 [modules.machinery.virtualbox] DEBUG: Machine winxpsp3_cn status poweroff
+2017-05-22 10:38:16,361 [modules.machinery.virtualbox] DEBUG: Using snapshot agent for virtual machine winxpsp3_cn
+2017-05-22 10:38:16,668 [modules.machinery.virtualbox] DEBUG: Getting status for winxpsp3_cn
+2017-05-22 10:38:16,711 [modules.machinery.virtualbox] DEBUG: Machine winxpsp3_cn status saved
+2017-05-22 10:38:21,947 [modules.machinery.virtualbox] DEBUG: Getting status for winxpsp3_cn
+2017-05-22 10:38:21,992 [modules.machinery.virtualbox] DEBUG: Machine winxpsp3_cn status running
+2017-05-22 10:38:22,326 [lib.detector.core.guest] INFO: Starting analysis on guest (id=detect1, ip=192.168.56.101)
+2017-05-22 10:38:23,339 [lib.detector.core.guest] DEBUG: detect1: not ready yet
+2017-05-22 10:38:24,352 [lib.detector.core.guest] DEBUG: detect1: not ready yet
+2017-05-22 10:38:25,368 [lib.detector.core.guest] DEBUG: detect1: not ready yet
+2017-05-22 10:38:26,380 [lib.detector.core.guest] DEBUG: detect1: not ready yet
+2017-05-22 10:38:27,392 [lib.detector.core.guest] DEBUG: detect1: not ready yet
+2017-05-22 10:38:28,405 [lib.detector.core.guest] DEBUG: detect1: not ready yet
+2017-05-22 10:38:28,463 [lib.detector.core.guest] DEBUG: detect1: waiting for status 0x0001
+2017-05-22 10:38:28,477 [lib.detector.core.guest] DEBUG: detect1: status ready
+2017-05-22 10:38:28,555 [lib.detector.core.guest] DEBUG: Uploading analyzer to guest (id=detect1, ip=192.168.56.101)
+2017-05-22 10:38:28,992 [lib.detector.core.guest] DEBUG: detect1: analyzer started with PID 1604
+2017-05-22 10:38:29,108 [lib.detector.core.resultserver] DEBUG: LogHandler for live analysis.log initialized.
+2017-05-22 10:38:29,121 [lib.detector.core.guest] DEBUG: detect1: waiting for completion
+2017-05-22 10:38:30,134 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 10:38:30,305 [lib.detector.core.resultserver] DEBUG: New process (pid=920, ppid=1084, name=Demo.exe)
+2017-05-22 10:38:31,151 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 10:38:32,190 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 10:38:32,312 [lib.detector.core.resultserver] DEBUG: Connection closed: 192.168.56.101:1053
+2017-05-22 10:38:32,312 [lib.detector.core.resultserver] DEBUG: Connection closed: 192.168.56.101:1052
+2017-05-22 10:38:32,312 [lib.detector.core.resultserver] DEBUG: Connection closed: 192.168.56.101:1051
+2017-05-22 10:38:33,214 [lib.detector.core.guest] INFO: detect1: analysis completed successfully
+2017-05-22 10:38:33,569 [lib.detector.core.plugins] DEBUG: Stopped auxiliary module: Sniffer
+2017-05-22 10:38:33,591 [modules.machinery.virtualbox] DEBUG: Stopping vm winxpsp3_cn
+2017-05-22 10:38:33,602 [modules.machinery.virtualbox] DEBUG: Getting status for winxpsp3_cn
+2017-05-22 10:38:33,670 [modules.machinery.virtualbox] DEBUG: Machine winxpsp3_cn status running
+2017-05-22 10:38:35,826 [modules.machinery.virtualbox] DEBUG: Getting status for winxpsp3_cn
+2017-05-22 10:38:35,892 [modules.machinery.virtualbox] DEBUG: Machine winxpsp3_cn status poweroff
+2017-05-22 10:38:36,434 [lib.detector.core.scheduler] DEBUG: Released database task #2
+2017-05-22 10:38:36,463 [lib.detector.core.plugins] DEBUG: Executed processing module "AnalysisInfo" on analysis at "F:\Github\Detector\storage\analyses\2"
+2017-05-22 10:38:36,477 [lib.detector.core.plugins] DEBUG: Executed processing module "BehaviorAnalysis" on analysis at "F:\Github\Detector\storage\analyses\2"
+2017-05-22 10:38:36,483 [lib.detector.core.plugins] DEBUG: Executed processing module "DroppedBuffer" on analysis at "F:\Github\Detector\storage\analyses\2"
+2017-05-22 10:38:36,490 [lib.detector.core.plugins] DEBUG: Executed processing module "Debug" on analysis at "F:\Github\Detector\storage\analyses\2"
+2017-05-22 10:38:36,496 [lib.detector.core.plugins] DEBUG: Executed processing module "Dropped" on analysis at "F:\Github\Detector\storage\analyses\2"
+2017-05-22 10:38:36,503 [modules.processing.memory] ERROR: Cannot run volatility module: volatility library not available
+2017-05-22 10:38:36,512 [lib.detector.core.plugins] DEBUG: Executed processing module "Memory" on analysis at "F:\Github\Detector\storage\analyses\2"
+2017-05-22 10:38:36,519 [lib.detector.core.plugins] DEBUG: Executed processing module "ProcessMemory" on analysis at "F:\Github\Detector\storage\analyses\2"
+2017-05-22 10:38:37,338 [lib.detector.core.plugins] DEBUG: Executed processing module "Static" on analysis at "F:\Github\Detector\storage\analyses\2"
+2017-05-22 10:38:37,348 [lib.detector.core.plugins] DEBUG: Executed processing module "Strings" on analysis at "F:\Github\Detector\storage\analyses\2"
+2017-05-22 10:38:37,368 [lib.detector.core.plugins] ERROR: Failed to run the processing module "TargetInfo" for task #2:
+Traceback (most recent call last):
+  File "F:\Github\Detector\lib\detector\core\plugins.py", line 215, in process
+    data = current.run()
+  File "F:\Github\Detector\modules\processing\targetinfo.py", line 26, in run
+    target_info["file"] = File(self.file_path).get_all()
+  File "F:\Github\Detector\lib\detector\common\objects.py", line 504, in get_all
+    infos["urls"] = self.get_urls()
+  File "F:\Github\Detector\lib\detector\common\objects.py", line 480, in get_urls
+    m = mmap.mmap(f.fileno(), 0)
+WindowsError: [Error 5] 
+2017-05-22 10:38:37,380 [modules.processing.baseline] INFO: Could not find a baseline report for machine 'detect1', skipping it.
+2017-05-22 10:38:37,390 [lib.detector.core.plugins] DEBUG: Executed processing module "Baseline" on analysis at "F:\Github\Detector\storage\analyses\2"
+2017-05-22 10:38:37,401 [modules.processing.network] WARNING: The PCAP file does not exist at path "F:\Github\Detector\storage\analyses\2\dump.pcap".
+2017-05-22 10:38:37,414 [lib.detector.core.plugins] DEBUG: Executed processing module "NetworkAnalysis" on analysis at "F:\Github\Detector\storage\analyses\2"
+2017-05-22 10:38:40,507 [lib.detector.core.plugins] DEBUG: Executed processing module "VirusTotal" on analysis at "F:\Github\Detector\storage\analyses\2"
+2017-05-22 10:38:40,546 [lib.detector.core.plugins] DEBUG: Executed processing module "TLSMasterSecrets" on analysis at "F:\Github\Detector\storage\analyses\2"
+2017-05-22 10:38:40,565 [lib.detector.core.plugins] DEBUG: Running 0 signatures
+2017-05-22 10:38:40,605 [lib.detector.core.plugins] DEBUG: Executed reporting module "JsonDump"
+2017-05-22 10:38:40,917 [lib.detector.core.plugins] DEBUG: Executed reporting module "ReportHTML"
+2017-05-22 10:38:40,933 [lib.detector.core.scheduler] INFO: Task #2: reports generation completed (path=F:\Github\Detector\storage\analyses\2)
+2017-05-22 10:38:41,104 [lib.detector.core.scheduler] INFO: Task #2: analysis procedure completed
+2017-05-22 13:07:51,474 [lib.detector.core.scheduler] DEBUG: Processing task #3
+2017-05-22 13:07:51,480 [lib.detector.core.scheduler] INFO: Starting analysis of FILE "Demo.exe" (task #3, options "")
+2017-05-22 13:07:52,194 [lib.detector.core.scheduler] INFO: Task #3: acquired machine detect1 (label=winxpsp3_cn)
+2017-05-22 13:07:52,197 [modules.auxiliary.sniffer] ERROR: Tcpdump does not exist at path "/usr/sbin/tcpdump", network capture aborted
+2017-05-22 13:07:52,227 [lib.detector.core.plugins] DEBUG: Started auxiliary module: Sniffer
+2017-05-22 13:07:53,128 [modules.machinery.virtualbox] DEBUG: Starting vm winxpsp3_cn
+2017-05-22 13:07:53,161 [modules.machinery.virtualbox] DEBUG: Getting status for winxpsp3_cn
+2017-05-22 13:07:53,607 [modules.machinery.virtualbox] DEBUG: Machine winxpsp3_cn status poweroff
+2017-05-22 13:07:53,785 [modules.machinery.virtualbox] DEBUG: Using snapshot agent for virtual machine winxpsp3_cn
+2017-05-22 13:07:53,986 [modules.machinery.virtualbox] DEBUG: Getting status for winxpsp3_cn
+2017-05-22 13:07:54,035 [modules.machinery.virtualbox] DEBUG: Machine winxpsp3_cn status saved
+2017-05-22 13:08:00,471 [modules.machinery.virtualbox] DEBUG: Getting status for winxpsp3_cn
+2017-05-22 13:08:00,523 [modules.machinery.virtualbox] DEBUG: Machine winxpsp3_cn status running
+2017-05-22 13:08:00,841 [lib.detector.core.guest] INFO: Starting analysis on guest (id=detect1, ip=192.168.56.101)
+2017-05-22 13:08:01,868 [lib.detector.core.guest] DEBUG: detect1: not ready yet
+2017-05-22 13:08:02,882 [lib.detector.core.guest] DEBUG: detect1: not ready yet
+2017-05-22 13:08:03,895 [lib.detector.core.guest] DEBUG: detect1: not ready yet
+2017-05-22 13:08:04,911 [lib.detector.core.guest] DEBUG: detect1: not ready yet
+2017-05-22 13:08:05,923 [lib.detector.core.guest] DEBUG: detect1: not ready yet
+2017-05-22 13:08:06,937 [lib.detector.core.guest] DEBUG: detect1: not ready yet
+2017-05-22 13:08:06,960 [lib.detector.core.guest] DEBUG: detect1: waiting for status 0x0001
+2017-05-22 13:08:06,974 [lib.detector.core.guest] DEBUG: detect1: status ready
+2017-05-22 13:08:07,062 [lib.detector.core.guest] DEBUG: Uploading analyzer to guest (id=detect1, ip=192.168.56.101)
+2017-05-22 13:08:07,516 [lib.detector.core.guest] DEBUG: detect1: analyzer started with PID 1188
+2017-05-22 13:08:07,630 [lib.detector.core.guest] DEBUG: detect1: waiting for completion
+2017-05-22 13:08:07,644 [lib.detector.core.resultserver] DEBUG: LogHandler for live analysis.log initialized.
+2017-05-22 13:08:08,645 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:08,897 [lib.detector.core.resultserver] DEBUG: New process (pid=1400, ppid=516, name=Demo.exe)
+2017-05-22 13:08:09,660 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:10,081 [lib.detector.common.netlog] WARNING: BsonParser decoding problem 'ascii' codec can't decode byte 0xe6 in position 36: ordinal not in range(128) on data[:50] '\xae\x00\x00\x00\x10I\x00Y\x00\x00\x00\x10T\x00\x00\x06\x00\x00\x10t\x00\xa7\x04\x00\x00\x12h\x00\x00\x00\x00\x00\x00\x00\x00\x00\x04args\x00\x83\x00\x00\x00\x100\x00\x01'
+2017-05-22 13:08:10,088 [lib.detector.core.resultserver] DEBUG: Connection closed: 192.168.56.101:1053
+2017-05-22 13:08:10,680 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:11,726 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:12,750 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:13,780 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:14,806 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:15,829 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:16,844 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:17,862 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:18,891 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:19,917 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:20,941 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:21,967 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:22,996 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:24,017 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:25,039 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:26,063 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:27,073 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:28,084 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:29,095 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:30,122 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:31,148 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:32,171 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:33,200 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:34,226 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:35,252 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:36,269 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:37,286 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:38,313 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:39,341 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:40,367 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:41,391 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:42,411 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:43,539 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:44,565 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:45,592 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:46,617 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:47,641 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:48,657 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:49,681 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:50,711 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:51,737 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:52,763 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:53,790 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:54,816 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:55,842 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:56,871 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:57,894 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:58,920 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:08:59,946 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:00,970 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:01,997 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:03,023 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:04,049 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:05,072 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:06,098 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:07,121 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:08,132 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:09,157 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:10,184 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:11,209 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:12,234 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:13,263 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:14,289 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:15,315 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:16,342 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:17,367 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:18,394 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:19,420 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:20,446 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:21,471 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:22,482 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:23,512 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:24,539 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:25,565 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:26,591 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:27,615 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:28,641 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:29,671 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:30,697 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:31,720 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:32,742 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:33,766 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:34,792 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:35,806 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:36,818 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:37,828 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:38,846 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:39,858 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:40,885 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:41,928 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:42,947 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:43,960 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:44,976 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:45,993 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:47,009 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:48,033 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:49,062 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:50,086 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:51,114 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:52,138 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:53,164 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:54,190 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:55,216 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:56,243 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:57,267 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:58,289 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:09:59,309 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:00,334 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:01,358 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:02,385 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:03,415 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:04,441 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:05,466 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:06,489 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:07,516 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:08,539 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:09,565 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:10,589 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:11,604 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:12,630 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:13,657 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:14,681 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:15,703 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:16,723 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:17,740 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:18,763 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:19,786 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:20,796 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:21,808 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:22,822 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:23,838 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:24,851 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:25,865 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:26,891 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:27,920 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:28,944 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:29,970 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:30,996 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:32,023 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:33,051 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:34,075 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:35,092 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:36,121 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:37,144 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:38,154 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:39,171 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:40,194 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:41,211 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:42,226 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:43,246 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:44,273 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:45,299 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:46,329 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:47,355 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:48,385 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:49,411 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:50,436 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:51,463 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:52,492 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:53,520 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:54,546 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:55,569 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:56,584 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:57,608 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:58,634 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:10:59,655 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:00,680 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:01,707 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:02,720 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:03,739 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:04,755 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:05,783 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:06,809 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:07,839 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:08,871 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:09,898 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:10,923 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:11,940 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:12,970 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:13,992 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:15,016 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:16,063 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:17,091 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:18,112 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:19,135 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:20,161 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:21,186 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:22,200 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:23,211 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:24,230 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:25,240 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:26,263 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:27,292 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:28,322 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:29,349 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:30,378 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:31,390 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:32,417 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:33,440 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:34,466 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:35,499 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:36,520 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:37,546 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:38,575 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:39,602 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:40,625 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:41,635 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:42,661 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:43,687 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:44,714 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:45,739 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:46,765 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:47,792 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:48,818 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:49,846 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:50,872 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:51,900 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:52,924 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:53,948 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:55,177 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:56,203 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:57,232 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:58,257 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:11:59,283 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:00,312 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:01,338 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:02,362 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:03,390 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:04,411 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:05,426 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:06,453 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:07,479 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:08,507 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:09,529 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:10,552 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:11,579 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:12,605 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:13,635 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:14,660 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:15,686 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:16,716 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:17,740 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:18,766 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:19,795 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:20,812 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:21,839 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:22,868 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:23,891 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:24,907 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:25,921 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:26,940 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:27,961 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:28,983 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:30,036 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:31,063 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:32,091 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:33,117 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:34,141 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:35,171 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:36,194 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:37,217 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:38,244 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:39,263 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:40,292 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:41,316 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:42,342 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:43,371 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:44,395 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:45,421 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:46,450 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:47,476 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:48,502 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:49,515 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:50,539 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:51,569 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:52,594 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:53,611 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:54,638 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:55,650 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:56,658 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:57,684 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:58,698 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:12:59,721 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:13:00,734 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:13:01,759 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:13:02,772 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:13:03,798 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:13:04,822 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:13:05,838 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:13:06,865 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:13:07,891 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:13:08,917 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:13:09,940 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:13:10,970 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:13:11,996 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:13:13,022 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:13:14,039 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:13:15,046 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:13:16,065 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:13:17,094 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:13:18,118 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:13:19,148 [lib.detector.core.guest] DEBUG: detect1: analysis not completed yet (status=2)
+2017-05-22 13:13:20,105 [lib.detector.core.resultserver] DEBUG: Connection closed: 192.168.56.101:1051
+2017-05-22 13:13:20,107 [lib.detector.core.resultserver] DEBUG: Connection closed: 192.168.56.101:1052
+2017-05-22 13:13:20,174 [lib.detector.core.guest] INFO: detect1: analysis completed successfully
+2017-05-22 13:13:20,311 [lib.detector.core.plugins] DEBUG: Stopped auxiliary module: Sniffer
+2017-05-22 13:13:20,319 [modules.machinery.virtualbox] DEBUG: Stopping vm winxpsp3_cn
+2017-05-22 13:13:20,325 [modules.machinery.virtualbox] DEBUG: Getting status for winxpsp3_cn
+2017-05-22 13:13:20,378 [modules.machinery.virtualbox] DEBUG: Machine winxpsp3_cn status running
+2017-05-22 13:13:21,510 [modules.machinery.virtualbox] DEBUG: Getting status for winxpsp3_cn
+2017-05-22 13:13:21,582 [modules.machinery.virtualbox] DEBUG: Machine winxpsp3_cn status poweroff
+2017-05-22 13:13:22,046 [lib.detector.core.scheduler] DEBUG: Released database task #3
+2017-05-22 13:13:22,088 [lib.detector.core.plugins] DEBUG: Executed processing module "AnalysisInfo" on analysis at "F:\Github\Detector\storage\analyses\3"
+2017-05-22 13:13:22,290 [lib.detector.common.netlog] WARNING: BsonParser decoding problem 'ascii' codec can't decode byte 0xe6 in position 36: ordinal not in range(128) on data[:50] '\xae\x00\x00\x00\x10I\x00Y\x00\x00\x00\x10T\x00\x00\x06\x00\x00\x10t\x00\xa7\x04\x00\x00\x12h\x00\x00\x00\x00\x00\x00\x00\x00\x00\x04args\x00\x83\x00\x00\x00\x100\x00\x01'
+2017-05-22 13:13:22,296 [lib.detector.core.plugins] DEBUG: Executed processing module "BehaviorAnalysis" on analysis at "F:\Github\Detector\storage\analyses\3"
+2017-05-22 13:13:22,301 [lib.detector.core.plugins] DEBUG: Executed processing module "DroppedBuffer" on analysis at "F:\Github\Detector\storage\analyses\3"
+2017-05-22 13:13:22,309 [lib.detector.core.plugins] DEBUG: Executed processing module "Debug" on analysis at "F:\Github\Detector\storage\analyses\3"
+2017-05-22 13:13:22,315 [lib.detector.core.plugins] DEBUG: Executed processing module "Dropped" on analysis at "F:\Github\Detector\storage\analyses\3"
+2017-05-22 13:13:22,322 [modules.processing.memory] ERROR: Cannot run volatility module: volatility library not available
+2017-05-22 13:13:22,331 [lib.detector.core.plugins] DEBUG: Executed processing module "Memory" on analysis at "F:\Github\Detector\storage\analyses\3"
+2017-05-22 13:13:22,338 [lib.detector.core.plugins] DEBUG: Executed processing module "ProcessMemory" on analysis at "F:\Github\Detector\storage\analyses\3"
+2017-05-22 13:13:23,142 [lib.detector.core.plugins] DEBUG: Executed processing module "Static" on analysis at "F:\Github\Detector\storage\analyses\3"
+2017-05-22 13:13:23,154 [lib.detector.core.plugins] DEBUG: Executed processing module "Strings" on analysis at "F:\Github\Detector\storage\analyses\3"
+2017-05-22 13:13:23,173 [lib.detector.core.plugins] ERROR: Failed to run the processing module "TargetInfo" for task #3:
+Traceback (most recent call last):
+  File "F:\Github\Detector\lib\detector\core\plugins.py", line 215, in process
+    data = current.run()
+  File "F:\Github\Detector\modules\processing\targetinfo.py", line 26, in run
+    target_info["file"] = File(self.file_path).get_all()
+  File "F:\Github\Detector\lib\detector\common\objects.py", line 504, in get_all
+    infos["urls"] = self.get_urls()
+  File "F:\Github\Detector\lib\detector\common\objects.py", line 480, in get_urls
+    m = mmap.mmap(f.fileno(), 0)
+WindowsError: [Error 5] 
+2017-05-22 13:13:23,200 [modules.processing.baseline] INFO: Could not find a baseline report for machine 'detect1', skipping it.
+2017-05-22 13:13:23,229 [lib.detector.core.plugins] DEBUG: Executed processing module "Baseline" on analysis at "F:\Github\Detector\storage\analyses\3"
+2017-05-22 13:13:23,250 [modules.processing.network] WARNING: The PCAP file does not exist at path "F:\Github\Detector\storage\analyses\3\dump.pcap".
+2017-05-22 13:13:23,263 [lib.detector.core.plugins] DEBUG: Executed processing module "NetworkAnalysis" on analysis at "F:\Github\Detector\storage\analyses\3"
+2017-05-22 13:13:24,548 [lib.detector.core.plugins] DEBUG: Executed processing module "VirusTotal" on analysis at "F:\Github\Detector\storage\analyses\3"
+2017-05-22 13:13:24,582 [lib.detector.core.plugins] DEBUG: Executed processing module "TLSMasterSecrets" on analysis at "F:\Github\Detector\storage\analyses\3"
+2017-05-22 13:13:24,609 [lib.detector.core.plugins] DEBUG: Running 0 signatures
+2017-05-22 13:13:24,829 [lib.detector.common.netlog] WARNING: BsonParser decoding problem 'ascii' codec can't decode byte 0xe6 in position 36: ordinal not in range(128) on data[:50] '\xae\x00\x00\x00\x10I\x00Y\x00\x00\x00\x10T\x00\x00\x06\x00\x00\x10t\x00\xa7\x04\x00\x00\x12h\x00\x00\x00\x00\x00\x00\x00\x00\x00\x04args\x00\x83\x00\x00\x00\x100\x00\x01'
+2017-05-22 13:13:26,073 [lib.detector.common.netlog] WARNING: BsonParser decoding problem 'ascii' codec can't decode byte 0xe6 in position 36: ordinal not in range(128) on data[:50] '\xae\x00\x00\x00\x10I\x00Y\x00\x00\x00\x10T\x00\x00\x06\x00\x00\x10t\x00\xa7\x04\x00\x00\x12h\x00\x00\x00\x00\x00\x00\x00\x00\x00\x04args\x00\x83\x00\x00\x00\x100\x00\x01'
+2017-05-22 13:13:26,094 [lib.detector.core.plugins] DEBUG: Executed reporting module "JsonDump"
+2017-05-22 13:13:27,201 [lib.detector.common.netlog] WARNING: BsonParser decoding problem 'ascii' codec can't decode byte 0xe6 in position 36: ordinal not in range(128) on data[:50] '\xae\x00\x00\x00\x10I\x00Y\x00\x00\x00\x10T\x00\x00\x06\x00\x00\x10t\x00\xa7\x04\x00\x00\x12h\x00\x00\x00\x00\x00\x00\x00\x00\x00\x04args\x00\x83\x00\x00\x00\x100\x00\x01'
+2017-05-22 13:13:27,532 [lib.detector.core.plugins] DEBUG: Executed reporting module "ReportHTML"
+2017-05-22 13:13:27,543 [lib.detector.core.scheduler] INFO: Task #3: reports generation completed (path=F:\Github\Detector\storage\analyses\3)
+2017-05-22 13:13:27,778 [lib.detector.core.scheduler] INFO: Task #3: analysis procedure completed

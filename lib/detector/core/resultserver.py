@@ -1,3 +1,8 @@
+# Copyright (C) 2010-2013 Claudio Guarnieri.
+# Copyright (C) 2014-2015 Detector Foundation.
+# This file is part of Detector Sandbox - http://www.detectorsandbox.org
+# See the file 'docs/LICENSE' for copying permission.
+
 import os
 import socket
 import select
@@ -6,19 +11,20 @@ import datetime
 import SocketServer
 from threading import Event, Thread
 
-from lib.detector.common.utils import create_folder, Singleton
 from lib.detector.common.config import Config
+from lib.detector.common.constants import DETECTOR_ROOT
 from lib.detector.common.exceptions import DetectorOperationalError
 from lib.detector.common.exceptions import DetectorCriticalError
 from lib.detector.common.exceptions import DetectorResultError
+from lib.detector.common.netlog import BsonParser
+from lib.detector.common.utils import create_folder, Singleton
 
 log = logging.getLogger(__name__)
+
 BUFSIZE = 16 * 1024
 
 class Disconnect(Exception):
     pass
-
-
 
 class ResultServer(SocketServer.ThreadingTCPServer, object):
     """Result server. Singleton!
@@ -38,11 +44,14 @@ class ResultServer(SocketServer.ThreadingTCPServer, object):
 
         ip = self.cfg.resultserver.ip
         self.port = int(self.cfg.resultserver.port)
-
         while True:
             try:
                 server_addr = ip, self.port
-                SocketServer.ThreadingTCPServer.__init__(self,server_addr,ResultHandler,*args,**kwargs)
+                SocketServer.ThreadingTCPServer.__init__(self,
+                                                         server_addr,
+                                                         ResultHandler,
+                                                         *args,
+                                                         **kwargs)
             except Exception as e:
                 # In Linux /usr/include/asm-generic/errno-base.h.
                 # EADDRINUSE  98 (Address already in use)
@@ -63,13 +72,53 @@ class ResultServer(SocketServer.ThreadingTCPServer, object):
                 self.servethread.start()
                 break
 
+    def add_task(self, task, machine):
+        """Register a task/machine with the ResultServer."""
+        self.analysistasks[machine.ip] = task, machine
+        self.analysishandlers[task.id] = []
 
+    def del_task(self, task, machine):
+        """Delete ResultServer state and wait for pending RequestHandlers."""
+        x = self.analysistasks.pop(machine.ip, None)
+        if not x:
+            log.warning("ResultServer did not have %s in its task info.",
+                        machine.ip)
+        handlers = self.analysishandlers.pop(task.id, None)
+        for h in handlers:
+            h.end_request.set()
+            h.done_event.wait()
+
+    def register_handler(self, handler):
+        """Register a RequestHandler so that we can later wait for it."""
+        task, machine = self.get_ctx_for_ip(handler.client_address[0])
+        if not task or not machine:
+            return False
+
+        self.analysishandlers[task.id].append(handler)
+
+    def get_ctx_for_ip(self, ip):
+        """Return state for this IP's task."""
+        x = self.analysistasks.get(ip)
+        if not x:
+            log.critical("ResultServer unable to map ip to context: %s.", ip)
+            return None, None
+
+        return x
+
+    def build_storage_path(self, ip):
+        """Initialize analysis storage folder."""
+        task, machine = self.get_ctx_for_ip(ip)
+        if not task or not machine:
+            return
+
+        return os.path.join(DETECTOR_ROOT, "storage", "analyses", str(task.id))
 
 class ResultHandler(SocketServer.BaseRequestHandler):
     """Result handler.
 
     This handler speaks our analysis log network protocol.
     """
+
     def setup(self):
         self.rawlogfd = None
         self.protocol = None
@@ -108,7 +157,11 @@ class ResultHandler(SocketServer.BaseRequestHandler):
                 raise Disconnect()
             buf += tmp
 
-
+        if isinstance(self.protocol, BsonParser):
+            if self.rawlogfd:
+                self.rawlogfd.write(buf)
+            else:
+                self.startbuf += buf
         return buf
 
     def read_any(self):
@@ -129,6 +182,15 @@ class ResultHandler(SocketServer.BaseRequestHandler):
         # Read until newline.
         buf = self.read_newline()
 
+        if "BSON" in buf:
+            self.protocol = BsonParser(self)
+        elif "FILE" in buf:
+            self.protocol = FileUpload(self)
+        elif "LOG" in buf:
+            self.protocol = LogHandler(self)
+        else:
+            raise DetectorOperationalError("Netlog failure, unknown "
+                                         "protocol requested.")
 
     def handle(self):
         ip, port = self.client_address
@@ -141,7 +203,22 @@ class ResultHandler(SocketServer.BaseRequestHandler):
         # Create all missing folders for this analysis.
         self.create_folders()
 
+        try:
+            # Initialize the protocol handler class for this connection.
+            self.negotiate_protocol()
 
+            for event in self.protocol:
+                if isinstance(self.protocol, BsonParser) and event["type"] == "process":
+                    self.open_process_log(event)
+
+        except DetectorResultError as e:
+            log.warning("ResultServer connection stopping because of "
+                        "DetectorResultError: %s.", str(e))
+        except (Disconnect, socket.error):
+            pass
+        except:
+            log.exception("FIXME - exception in resultserver connection %s",
+                          str(self.client_address))
 
         log.debug("Connection closed: {0}:{1}".format(ip, port))
 
@@ -178,3 +255,114 @@ class ResultHandler(SocketServer.BaseRequestHandler):
                 log.error("Unable to create folder %s" % folder)
                 return False
 
+
+class FileUpload(object):
+    RESTRICTED_DIRECTORIES = "reports/",
+
+    def __init__(self, handler):
+        self.handler = handler
+        self.upload_max_size = \
+            self.handler.server.cfg.resultserver.upload_max_size
+        self.storagepath = self.handler.storagepath
+        self.fd = None
+
+    def __iter__(self):
+        # Read until newline for file path, e.g.,
+        # shots/0001.jpg or files/9498687557/libcurl-4.dll.bin
+
+        buf = self.handler.read_newline().strip().replace("\\", "/")
+        log.debug("File upload request for %s", buf)
+
+        dir_part, filename = os.path.split(buf)
+
+        if "./" in buf or not dir_part or buf.startswith("/"):
+            raise DetectorOperationalError("FileUpload failure, banned path.")
+
+        for restricted in self.RESTRICTED_DIRECTORIES:
+            if restricted in dir_part:
+                raise DetectorOperationalError("FileUpload failure, banned path.")
+
+        try:
+            create_folder(self.storagepath, dir_part)
+        except DetectorOperationalError:
+            log.error("Unable to create folder %s", dir_part)
+            return
+
+        file_path = os.path.join(self.storagepath, buf.strip())
+
+        if not file_path.startswith(self.storagepath):
+            raise DetectorOperationalError("FileUpload failure, path sanitization failed.")
+
+        if os.path.exists(file_path):
+            log.warning("Analyzer tried to overwrite an existing file, closing connection.")
+            return
+
+        self.fd = open(file_path, "wb")
+        chunk = self.handler.read_any()
+        while chunk:
+            self.fd.write(chunk)
+
+            if self.fd.tell() >= self.upload_max_size:
+                log.warning("Uploaded file length larger than upload_max_size, stopping upload.")
+                self.fd.write("... (truncated)")
+                break
+
+            try:
+                chunk = self.handler.read_any()
+            except:
+                break
+
+        log.debug("Uploaded file length: %s", self.fd.tell())
+        return
+        yield
+
+    def close(self):
+        if self.fd:
+            self.fd.close()
+
+class LogHandler(object):
+    def __init__(self, handler):
+        self.handler = handler
+        self.logpath = os.path.join(handler.storagepath, "analysis.log")
+        self.fd = self._open()
+        log.debug("LogHandler for live analysis.log initialized.")
+
+    def __iter__(self):
+        if not self.fd:
+            return
+
+        while True:
+            try:
+                buf = self.handler.read_newline()
+            except Disconnect:
+                break
+
+            if not buf:
+                break
+
+            self.fd.write(buf)
+            self.fd.flush()
+
+        return
+        yield
+
+    def close(self):
+        if self.fd:
+            self.fd.close()
+
+    def _open(self):
+        if not os.path.exists(self.logpath):
+            return open(self.logpath, "wb")
+
+        log.debug("Log analysis.log already existing, appending data.")
+        fd = open(self.logpath, "ab")
+
+        # add a fake log entry, saying this had to be re-opened
+        #  use the same format as the default logger, in case anyone wants to parse this
+        #  2015-02-23 12:05:05,092 [lib.api.process] DEBUG: Using QueueUserAPC injection.
+        now = datetime.datetime.now()
+        print >>fd, "\n%s,%03.0f [lib.core.resultserver] WARNING: This log file was re-opened, log entries will be appended." % (
+            now.strftime("%Y-%m-%d %H:%M:%S"), now.microsecond / 1000.0
+        )
+
+        return fd

@@ -5,19 +5,19 @@ import logging
 import threading
 import Queue
 
-from lib.detector.common.config import Config#, parse_options, emit_options
+from lib.detector.common.config import Config, parse_options, emit_options
 from lib.detector.common.constants import DETECTOR_ROOT
 from lib.detector.common.exceptions import DetectorMachineError, DetectorGuestError
 from lib.detector.common.exceptions import DetectorOperationalError
 from lib.detector.common.exceptions import DetectorCriticalError
-#from lib.detector.common.objects import File
-#from lib.detector.common.utils import create_folder
+from lib.detector.common.objects import File
+from lib.detector.common.utils import create_folder
 from lib.detector.core.database import Database, TASK_COMPLETED, TASK_REPORTED
-#from lib.detector.core.guest import GuestManager
+from lib.detector.core.guest import GuestManager
 from lib.detector.core.plugins import list_plugins, RunAuxiliary, RunProcessing
 from lib.detector.core.plugins import RunSignatures, RunReporting
 from lib.detector.core.resultserver import ResultServer
-
+from lib.detector.core.rooter import rooter, vpns
 
 log = logging.getLogger(__name__)
 
@@ -27,6 +27,463 @@ latest_symlink_lock = threading.Lock()
 
 active_analysis_count = 0
 
+class AnalysisManager(threading.Thread):
+    """Analysis Manager.
+
+    This class handles the full analysis process for a given task. It takes
+    care of selecting the analysis machine, preparing the configuration and
+    interacting with the guest agent and analyzer components to launch and
+    complete the analysis and store, process and report its results.
+    """
+
+    def __init__(self, task, error_queue):
+        """@param task: task object containing the details for the analysis."""
+        threading.Thread.__init__(self)
+
+        self.task = task
+        self.errors = error_queue
+        self.cfg = Config()
+        self.storage = ""
+        self.binary = ""
+        self.machine = None
+        self.db = Database()
+
+        self.task.options = parse_options(self.task.options)
+
+    def init_storage(self):
+        """Initialize analysis storage folder."""
+        self.storage = os.path.join(DETECTOR_ROOT,
+                                    "storage",
+                                    "analyses",
+                                    str(self.task.id))
+
+        # If the analysis storage folder already exists, we need to abort the
+        # analysis or previous results will be overwritten and lost.
+        if os.path.exists(self.storage):
+            log.error("Analysis results folder already exists at path \"%s\","
+                      " analysis aborted", self.storage)
+            return False
+
+        # If we're not able to create the analysis storage folder, we have to
+        # abort the analysis.
+        try:
+            create_folder(folder=self.storage)
+        except DetectorOperationalError:
+            log.error("Unable to create analysis folder %s", self.storage)
+            return False
+
+        return True
+
+    def check_file(self):
+        """Checks the integrity of the file to be analyzed."""
+        sample = self.db.view_sample(self.task.sample_id)
+
+        sha256 = File(self.task.target).get_sha256()
+        if sha256 != sample.sha256:
+            log.error("Target file has been modified after submission: \"%s\"", self.task.target)
+            return False
+
+        return True
+
+    def store_file(self):
+        """Store a copy of the file being analyzed."""
+        if not os.path.exists(self.task.target):
+            log.error("The file to analyze does not exist at path \"%s\", "
+                      "analysis aborted", self.task.target)
+            return False
+
+        sha256 = File(self.task.target).get_sha256()
+        self.binary = os.path.join(DETECTOR_ROOT, "storage", "binaries", sha256)
+
+        if os.path.exists(self.binary):
+            log.info("File already exists at \"%s\"", self.binary)
+        else:
+            # TODO: do we really need to abort the analysis in case we are not
+            # able to store a copy of the file?
+            try:
+                shutil.copy(self.task.target, self.binary)
+            except (IOError, shutil.Error) as e:
+                log.error("Unable to store file from \"%s\" to \"%s\", "
+                          "analysis aborted", self.task.target, self.binary)
+                return False
+
+        try:
+            new_binary_path = os.path.join(self.storage, "binary")
+
+            if hasattr(os, "symlink"):
+                os.symlink(self.binary, new_binary_path)
+            else:
+                shutil.copy(self.binary, new_binary_path)
+        except (AttributeError, OSError) as e:
+            log.error("Unable to create symlink/copy from \"%s\" to "
+                      "\"%s\": %s", self.binary, self.storage, e)
+
+        return True
+
+    def acquire_machine(self):
+        """Acquire an analysis machine from the pool of available ones."""
+        machine = None
+
+        # Start a loop to acquire the a machine to run the analysis on.
+        while True:
+            machine_lock.acquire()
+
+            # In some cases it's possible that we enter this loop without
+            # having any available machines. We should make sure this is not
+            # such case, or the analysis task will fail completely.
+            if not machinery.availables():
+                machine_lock.release()
+                time.sleep(1)
+                continue
+
+            # If the user specified a specific machine ID, a platform to be
+            # used or machine tags acquire the machine accordingly.
+            machine = machinery.acquire(machine_id=self.task.machine,
+                                        platform=self.task.platform,
+                                        tags=self.task.tags)
+
+            # If no machine is available at this moment, wait for one second
+            # and try again.
+            if not machine:
+                machine_lock.release()
+                log.debug("Task #%d: no machine available yet", self.task.id)
+                time.sleep(1)
+            else:
+                log.info("Task #%d: acquired machine %s (label=%s)",
+                         self.task.id, machine.name, machine.label)
+                break
+
+        self.machine = machine
+
+    def build_options(self):
+        """Generate analysis options.
+        @return: options dict.
+        """
+        options = {}
+
+        if self.task.category == "file":
+            options["file_name"] = File(self.task.target).get_name()
+            options["file_type"] = File(self.task.target).get_type()
+            options["pe_exports"] = \
+                ",".join(File(self.task.target).get_exported_functions())
+
+            package, activity = File(self.task.target).get_apk_entry()
+            self.task.options["apk_entry"] = "%s:%s" % (package, activity)
+
+        options["id"] = self.task.id
+        options["ip"] = self.machine.resultserver_ip
+        options["port"] = self.machine.resultserver_port
+        options["category"] = self.task.category
+        options["target"] = self.task.target
+        options["package"] = self.task.package
+        options["options"] = emit_options(self.task.options)
+        options["enforce_timeout"] = self.task.enforce_timeout
+        options["clock"] = self.task.clock
+        options["terminate_processes"] = self.cfg.detector.terminate_processes
+
+        if not self.task.timeout:
+            options["timeout"] = self.cfg.timeouts.default
+        else:
+            options["timeout"] = self.task.timeout
+
+        # copy in other analyzer specific options, TEMPORARY (most likely)
+        vm_options = getattr(machinery.options, self.machine.name)
+        for k in vm_options:
+            if k.startswith("analyzer_"):
+                options[k] = vm_options[k]
+
+        return options
+
+    def route_network(self):
+        """Enable network routing if desired."""
+        # Determine the desired routing strategy (none, internet, VPN).
+        route = self.task.options.get("route", self.cfg.routing.route)
+
+        if route == "none":
+            self.interface = None
+        elif route == "internet" and self.cfg.routing.internet != "none":
+            self.interface = self.cfg.routing.internet
+        elif route in vpns:
+            self.interface = vpns[route].interface
+        else:
+            log.warning("Unknown network routing destination specified, "
+                        "ignoring routing for this analysis: %r", route)
+            self.interface = None
+
+        if self.interface:
+            rooter("forward_enable", self.machine.interface,
+                   self.interface, self.machine.ip)
+
+        # Propagate the taken route to the database.
+        self.db.set_route(self.task.id, route)
+
+    def unroute_network(self):
+        if self.interface:
+            rooter("forward_disable", self.machine.interface,
+                   self.interface, self.machine.ip)
+
+    def wait_finish(self):
+        """Some VMs don't have an actual agent. Mainly those that are used as
+        assistance for an analysis through the services auxiliary module. This
+        method just waits until the analysis is finished rather than actively
+        trying to engage with the Detector Agent."""
+        self.db.guest_set_status(self.task.id, "running")
+        while self.db.guest_get_status(self.task.id) == "running":
+            time.sleep(1)
+
+    def guest_manage(self, options):
+        # Handle a special case where we're creating a baseline report of this
+        # particular virtual machine - a report containing all the results
+        # that are gathered if no additional samples are ran in the VM. These
+        # results, such as loaded drivers and opened sockets in volatility, or
+        # DNS requests to hostnames related to Microsoft Windows, etc may be
+        # omitted or at the very least given less priority when creating a
+        # report for an analysis that ran on this VM later on.
+        if self.task.category == "baseline":
+            time.sleep(options["timeout"])
+        else:
+            # Initialize the guest manager.
+            guest = GuestManager(self.machine.name, self.machine.ip,
+                                 self.machine.platform, self.task.id)
+
+            # Start the analysis.
+            self.db.guest_set_status(self.task.id, "starting")
+            monitor = self.task.options.get("monitor", "latest")
+            monitor = '14b2b875dbfa50d19f5967c4b150a7a2e9465e39'
+            guest.start_analysis(options, monitor)
+
+            # In case the Agent didn't respond and we force-quit the analysis
+            # at some point while it was still starting the analysis the state
+            # will be "stop" (or anything but "running", really).
+            if self.db.guest_get_status(self.task.id) == "starting":
+                self.db.guest_set_status(self.task.id, "running")
+                guest.wait_for_completion()
+
+            self.db.guest_set_status(self.task.id, "stopping")
+
+    def launch_analysis(self):
+        """Start analysis."""
+        succeeded = False
+
+        target = self.task.target
+        if self.task.category == "file":
+            target = os.path.basename(target)
+
+        log.info("Starting analysis of %s \"%s\" (task #%d, options \"%s\")",
+                 self.task.category.upper(), target, self.task.id,
+                 emit_options(self.task.options))
+
+        # Initialize the analysis folders.
+        if not self.init_storage():
+            return False
+
+        if self.task.category == "file":
+            # Check whether the file has been changed for some unknown reason.
+            # And fail this analysis if it has been modified.
+            if not self.check_file():
+                return False
+
+            # Store a copy of the original file.
+            if not self.store_file():
+                return False
+
+        # Acquire analysis machine.
+        try:
+            self.acquire_machine()
+        except DetectorOperationalError as e:
+            machine_lock.release()
+            log.error("Cannot acquire machine: {0}".format(e))
+            return False
+
+        # At this point we can tell the ResultServer about it.
+        try:
+            ResultServer().add_task(self.task, self.machine)
+        except Exception as e:
+            machinery.release(self.machine.label)
+            self.errors.put(e)
+
+        aux = RunAuxiliary(task=self.task, machine=self.machine)
+        aux.start()
+
+        # Generate the analysis configuration file.
+        options = self.build_options()
+
+        try:
+            unlocked = False
+            self.interface = None
+
+            # Mark the selected analysis machine in the database as started.
+            guest_log = self.db.guest_start(self.task.id,
+                                            self.machine.name,
+                                            self.machine.label,
+                                            machinery.__class__.__name__)
+            # Start the machine.
+            machinery.start(self.machine.label, self.task)
+
+            # Enable network routing.
+            self.route_network()
+
+            # By the time start returns it will have fully started the Virtual
+            # Machine. We can now safely release the machine lock.
+            machine_lock.release()
+            unlocked = True
+
+            # Run and manage the components inside the guest unless this
+            # machine has the "noagent" option specified (please refer to the
+            # wait_finish() function for more details on this function).
+            if "noagent" not in self.machine.options:
+                self.guest_manage(options)
+            else:
+                self.wait_finish()
+
+            succeeded = True
+        except DetectorMachineError as e:
+            if not unlocked:
+                machine_lock.release()
+            log.error(str(e), extra={"task_id": self.task.id})
+            log.critical(
+                "A critical error has occurred trying to use the machine "
+                "with name %s during an analysis due to which it is no "
+                "longer in a working state, please report this issue and all "
+                "of the related environment details to the developers so we "
+                "can improve this situation. (Note that before we would "
+                "simply remove this VM from doing any more analyses, but as "
+                "all the VMs will eventually be depleted that way, hopefully "
+                "we'll find a better solution now).", self.machine.name,
+            )
+        except DetectorGuestError as e:
+            if not unlocked:
+                machine_lock.release()
+            log.error(str(e), extra={"task_id": self.task.id})
+        finally:
+            # Stop Auxiliary modules.
+            aux.stop()
+
+            # Take a memory dump of the machine before shutting it off.
+            if self.cfg.detector.memory_dump or self.task.memory:
+                try:
+                    dump_path = os.path.join(self.storage, "memory.dmp")
+                    machinery.dump_memory(self.machine.label, dump_path)
+                except NotImplementedError:
+                    log.error("The memory dump functionality is not available "
+                              "for the current machine manager.")
+                except DetectorMachineError as e:
+                    log.error(e)
+
+            try:
+                # Stop the analysis machine.
+                machinery.stop(self.machine.label)
+            except DetectorMachineError as e:
+                log.warning("Unable to stop machine %s: %s",
+                            self.machine.label, e)
+
+            # Mark the machine in the database as stopped. Unless this machine
+            # has been marked as dead, we just keep it as "started" in the
+            # database so it'll not be used later on in this session.
+            self.db.guest_stop(guest_log)
+
+            # After all this, we can make the ResultServer forget about the
+            # internal state for this analysis task.
+            ResultServer().del_task(self.task, self.machine)
+
+            # Drop the network routing rules if any.
+            self.unroute_network()
+
+            try:
+                # Release the analysis machine. But only if the machine has
+                # not turned dead yet.
+                machinery.release(self.machine.label)
+            except DetectorMachineError as e:
+                log.error("Unable to release machine %s, reason %s. "
+                          "You might need to restore it manually.",
+                          self.machine.label, e)
+
+        return succeeded
+
+    def process_results(self):
+        """Process the analysis results and generate the enabled reports."""
+        results = RunProcessing(task=self.task.to_dict()).run()
+        RunSignatures(results=results).run()
+        RunReporting(task=self.task.to_dict(), results=results).run()
+
+        # If the target is a file and the user enabled the option,
+        # delete the original copy.
+        if self.task.category == "file" and self.cfg.detector.delete_original:
+            if not os.path.exists(self.task.target):
+                log.warning("Original file does not exist anymore: \"%s\": "
+                            "File not found.", self.task.target)
+            else:
+                try:
+                    os.remove(self.task.target)
+                except OSError as e:
+                    log.error("Unable to delete original file at path "
+                              "\"%s\": %s", self.task.target, e)
+
+        # If the target is a file and the user enabled the delete copy of
+        # the binary option, then delete the copy.
+        if self.task.category == "file" and self.cfg.detector.delete_bin_copy:
+            if not os.path.exists(self.binary):
+                log.warning("Copy of the original file does not exist anymore: \"%s\": File not found", self.binary)
+            else:
+                try:
+                    os.remove(self.binary)
+                except OSError as e:
+                    log.error("Unable to delete the copy of the original file at path \"%s\": %s", self.binary, e)
+
+        log.info("Task #%d: reports generation completed (path=%s)",
+                 self.task.id, self.storage)
+
+        return True
+
+    def run(self):
+        """Run manager thread."""
+        global active_analysis_count
+        active_analysis_count += 1
+        try:
+            self.launch_analysis()
+
+            self.db.set_status(self.task.id, TASK_COMPLETED)
+
+            # If the task is still available in the database, update our task
+            # variable with what's in the database, as otherwise we're missing
+            # out on the status and completed_on change. This would then in
+            # turn thrown an exception in the analysisinfo processing module.
+            self.task = self.db.view_task(self.task.id) or self.task
+
+            log.debug("Released database task #%d", self.task.id)
+
+            if self.cfg.detector.process_results:
+                self.process_results()
+                self.db.set_status(self.task.id, TASK_REPORTED)
+
+            # We make a symbolic link ("latest") which links to the latest
+            # analysis - this is useful for debugging purposes. This is only
+            # supported under systems that support symbolic links.
+            if hasattr(os, "symlink"):
+                latest = os.path.join(DETECTOR_ROOT, "storage",
+                                      "analyses", "latest")
+
+                # First we have to remove the existing symbolic link, then we
+                # have to create the new one.
+                # Deal with race conditions using a lock.
+                latest_symlink_lock.acquire()
+                try:
+                    # As per documentation, lexists() returns True for dead
+                    # symbolic links.
+                    if os.path.lexists(latest):
+                        os.remove(latest)
+
+                    os.symlink(self.storage, latest)
+                except OSError as e:
+                    log.warning("Error pointing latest analysis symlink: %s" % e)
+                finally:
+                    latest_symlink_lock.release()
+
+            log.info("Task #%d: analysis procedure completed", self.task.id)
+        except:
+            log.exception("Failure in AnalysisManager.run")
+
+        active_analysis_count -= 1
 
 class Scheduler(object):
     """Tasks Scheduler.
@@ -116,6 +573,15 @@ class Scheduler(object):
                          "VM.", machine.name)
                 continue
 
+            # Drop forwarding rule to each VPN.
+            for vpn in vpns.values():
+                rooter("forward_disable", machine.interface,
+                       vpn["interface"], machine.ip)
+
+            # Drop forwarding rule to the internet / dirty line.
+            if self.cfg.routing.internet != "none":
+                rooter("forward_disable", machine.interface,
+                       self.cfg.routing.internet, machine.ip)
 
     def stop(self):
         """Stop scheduler."""
@@ -216,9 +682,9 @@ class Scheduler(object):
                 self.total_analysis_count += 1
 
                 # Initialize and start the analysis manager.
-            #    analysis = AnalysisManager(task, errors)
-             #   analysis.daemon = True
-             #   analysis.start()
+                analysis = AnalysisManager(task, errors)
+                analysis.daemon = True
+                analysis.start()
 
             # Deal with errors.
             try:

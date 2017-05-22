@@ -1,0 +1,18 @@
+2017-05-22 10:38:13,000 [analyzer] DEBUG: Starting analyzer from: C:\qmibauovc
+2017-05-22 10:38:13,000 [analyzer] DEBUG: Pipe server name: \\.\PIPE\mzHTMmwkNMevzKfCHtkZLrrHFy
+2017-05-22 10:38:13,000 [analyzer] DEBUG: Log pipe server name: \\.\PIPE\RIbnjdaOistJULUnNlTkYejs
+2017-05-22 10:38:13,000 [analyzer] DEBUG: No analysis package specified, trying to detect it automagically.
+2017-05-22 10:38:13,000 [analyzer] INFO: Automatically selected analysis package "exe"
+2017-05-22 10:38:13,871 [analyzer] DEBUG: Started auxiliary module Disguise
+2017-05-22 10:38:14,010 [analyzer] DEBUG: Loaded monitor into process with pid 668
+2017-05-22 10:38:14,010 [lib.api.process] INFO: Successfully injected process with pid None
+2017-05-22 10:38:14,010 [analyzer] DEBUG: Started auxiliary module DumpTLSMasterSecrets
+2017-05-22 10:38:14,010 [analyzer] DEBUG: Started auxiliary module Human
+2017-05-22 10:38:14,010 [analyzer] DEBUG: Started auxiliary module InstallCertificate
+2017-05-22 10:38:14,010 [analyzer] DEBUG: Started auxiliary module Screenshots
+2017-05-22 10:38:14,020 [modules.auxiliary.screenshots] WARNING: Python Image Library is not installed, screenshots are disabled
+2017-05-22 10:38:14,040 [lib.api.process] INFO: Successfully executed process from path u'C:\\DOCUME~1\\will\\LOCALS~1\\Temp\\Demo.exe' with arguments '' and pid 920
+2017-05-22 10:38:14,171 [analyzer] DEBUG: Loaded monitor into process with pid 920
+2017-05-22 10:38:15,042 [analyzer] INFO: Process with pid 920 has terminated
+2017-05-22 10:38:15,042 [analyzer] INFO: Process list is empty, terminating analysis.
+2017-05-22 10:38:16,043 [analyzer] INFO: Analysis completed.

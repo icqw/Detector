@@ -13,11 +13,13 @@ import urllib2
 import xmlrpclib
 from datetime import datetime
 
+
+
 from lib.api.process import Process
 from lib.common.abstracts import Package, Auxiliary
 from lib.common.constants import SHUTDOWN_MUTEX
 from lib.common.defines import KERNEL32
-from lib.common.exceptions import CuckooError, CuckooPackageError
+from lib.common.exceptions import DetectorError, DetectorPackageError
 from lib.common.hashing import hash_file
 from lib.common.rand import random_string
 from lib.common.results import upload_to_host
@@ -101,7 +103,7 @@ class ProcessList(object):
         """Add a process identifier to the process list.
 
         Track determines whether the analyzer should be monitoring this
-        process, i.e., whether Cuckoo should wait for this process to finish.
+        process, i.e., whether Detector should wait for this process to finish.
         """
         if int(pid) not in self.pids and int(pid) not in self.pids_notrack:
             if track:
@@ -197,7 +199,7 @@ class CommandPipeHandler(object):
 
         if process_id in (self.analyzer.pid, self.analyzer.ppid):
             if process_id not in self.ignore_list["pid"]:
-                log.warning("Received request to inject Cuckoo processes, "
+                log.warning("Received request to inject Detector processes, "
                             "skipping it.")
                 self.ignore_list["pid"].append(process_id)
             self.analyzer.process_lock.release()
@@ -331,7 +333,7 @@ class CommandPipeHandler(object):
         return response
 
 class Analyzer(object):
-    """Cuckoo Windows Analyzer.
+    """Detector Windows Analyzer.
 
     This class handles the initialization and execution of the analysis
     procedure, including handling of the pipe server, the auxiliary modules and
@@ -464,7 +466,7 @@ class Analyzer(object):
             # If we weren't able to automatically determine the proper package,
             # we need to abort the analysis.
             if not package:
-                raise CuckooError("No valid package available for file "
+                raise DetectorError("No valid package available for file "
                                   "type: {0}".format(self.config.file_type))
 
             log.info("Automatically selected analysis package \"%s\"", package)
@@ -480,7 +482,7 @@ class Analyzer(object):
             __import__(package_name, globals(), locals(), ["dummy"], -1)
         # If it fails, we need to abort the analysis.
         except ImportError:
-            raise CuckooError("Unable to import package \"{0}\", does "
+            raise DetectorError("Unable to import package \"{0}\", does "
                               "not exist.".format(package_name))
 
         # Initialize the package parent abstract.
@@ -490,7 +492,7 @@ class Analyzer(object):
         try:
             package_class = Package.__subclasses__()[0]
         except IndexError as e:
-            raise CuckooError("Unable to select package class "
+            raise DetectorError("Unable to select package class "
                               "(package={0}): {1}".format(package_name, e))
 
         # Initialize the analysis package.
@@ -541,13 +543,13 @@ class Analyzer(object):
         try:
             pids = self.package.start(self.target)
         except NotImplementedError:
-            raise CuckooError("The package \"{0}\" doesn't contain a run "
+            raise DetectorError("The package \"{0}\" doesn't contain a run "
                               "function.".format(package_name))
-        except CuckooPackageError as e:
-            raise CuckooError("The package \"{0}\" start function raised an "
+        except DetectorPackageError as e:
+            raise DetectorError("The package \"{0}\" start function raised an "
                               "error: {1}".format(package_name, e))
         except Exception as e:
-            raise CuckooError("The package \"{0}\" start function encountered "
+            raise DetectorError("The package \"{0}\" start function encountered "
                               "an unhandled exception: "
                               "{1}".format(package_name, e))
 
@@ -707,7 +709,7 @@ if __name__ == "__main__":
         error = "Keyboard Interrupt"
 
     # If the analysis process encountered a critical error, it will raise a
-    # CuckooError exception, which will force the termination of the analysis.
+    # DetectorError exception, which will force the termination of the analysis.
     # Notify the agent of the failure. Also catch unexpected exceptions.
     except Exception as e:
         # Store the error.

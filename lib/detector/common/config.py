@@ -44,7 +44,7 @@ class Config:
     def get(self, section):
         """Get option.
         @param section: section to fetch.
-        @raise CuckooOperationalError: if section not found.
+        @raise DetectorOperationalError: if section not found.
         @return: option value.
         """
         try:
